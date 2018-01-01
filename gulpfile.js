@@ -1,16 +1,23 @@
 'use strict';
 var gulp = require('gulp');
+var pump = require('pump');
 var sass = require('gulp-sass');
-var min = require('gulp-minify');
-  
-gulp.task('sass', function(){
-    return gulp.src('./sass/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./css'));
+var ugllify = require('gulp-uglify');
+
+gulp.task('sass', function (cb) {
+    pump([
+            gulp.src('src/sass/**/*.scss'),
+            (sass().on('error', sass.logError)),
+            (gulp.dest('dist/css'))
+        ],
+        cb
+    );
 });
 
-gulp.task('minify');
+gulp.task('uglify', function () {
+    gulp.src('src/');
+});
 
-gulp.task('sass:watch', function(){
+gulp.task('sass:watch', function () {
     gulp.watch('./sass/**/*.scss', ['sass']);
 });
